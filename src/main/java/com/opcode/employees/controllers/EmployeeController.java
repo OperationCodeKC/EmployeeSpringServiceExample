@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.opcode.employees.model.Employee;
 import com.opcode.employees.repository.EmployeeRepository;
+import com.opcode.employees.xml.Employees;
 
 @RestController
 @RequestMapping(value = "/api/employees")
@@ -32,6 +33,11 @@ public class EmployeeController {
 		return employeeRepository.findAll();
 	};
 	
+	@RequestMapping(value = "/xml", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+	public Employees findAllXml() {
+		List<Employee> employees = employeeRepository.findAll();
+		return new Employees(employees);
+	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Employee getEmployee( @PathVariable("id") Integer id   ) {
